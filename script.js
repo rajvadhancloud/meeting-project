@@ -1,3 +1,8 @@
+const d = new Date();
+
+let clickedDay = d.getDate();
+let clickedYear = d.getFullYear();
+
 const isLeapYear = (year) => {
     return (
         (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
@@ -22,6 +27,11 @@ const month_names = [
     'November',
     'December',
 ];
+
+let clickedMonthTemp = month_names[d.getMonth()];
+let clickedMonth = clickedMonthTemp.substring(0, 3);
+
+
 let month_picker = document.querySelector('#month-picker');
 const dayTextFormate = document.querySelector('.day-text-formate');
 const timeFormate = document.querySelector('.time-formate');
@@ -82,10 +92,15 @@ const generateCalendar = (month, year) => {
             }
 
             // Add click event listener to each day
-            day.addEventListener('click', function() {
+            day.addEventListener('click', function () {
+                clickedDay = day_number;
+                let clickedMonthTemp = month_names[month];
+                clickedMonth = clickedMonthTemp.substring(0, 3);
+                clickedYear = year;
                 alert(`You clicked on: ${day_number}-${month_names[month]}-${year}`);
                 // You can also store the clicked date or perform other actions here
             });
+
         }
 
         calendar_days.appendChild(day);
@@ -124,8 +139,12 @@ document.querySelector('#next-year').onclick = () => {
 };
 
 let currentDate = new Date();
-let currentMonth = { value: currentDate.getMonth() };
-let currentYear = { value: currentDate.getFullYear() };
+let currentMonth = {
+    value: currentDate.getMonth()
+};
+let currentYear = {
+    value: currentDate.getFullYear()
+};
 generateCalendar(currentMonth.value, currentYear.value);
 
 const todayShowTime = document.querySelector('.time-formate');
@@ -160,3 +179,22 @@ setInterval(() => {
     )}: ${`${timer.getSeconds()}`.padStart(2, '0')}`;
     todayShowTime.textContent = formateTimer;
 }, 1000);
+
+const timeSlots = document.querySelectorAll('.time1');
+const startDate = document.querySelector('#startDate');
+const endDate = document.querySelector('#endDate');
+
+timeSlots.forEach(function (slot) {
+    slot.addEventListener('click', function () {
+
+        let startTime = this.getAttribute('start-time');
+        let endTime = this.getAttribute('end-time');
+
+        startDate.value = clickedDay + "-" + clickedMonth + "-" + clickedYear + " " + startTime;
+        endDate.value = clickedDay + "-" + clickedMonth + "-" + clickedYear + " " + endTime;
+
+        alert('Selected Time: ' + startDate.value + ' to ' + endDate.value);
+        let form = document.getElementById('dateform');
+        form.submit();
+    });
+});

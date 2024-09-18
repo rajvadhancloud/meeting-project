@@ -267,6 +267,11 @@ body {
     padding: 1em;
     margin: 1em;
     color: #8089FE;
+    cursor: pointer !important;
+}
+
+.selected-date{
+    background-color: #ff84a3;
 }
 
 @keyframes to-top {
