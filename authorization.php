@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // getting access token
 
 $curl = curl_init();
@@ -50,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array('service_id' => '239309000000047036', 'staff_id' => '239309000000033020', 'resource_id' => '239309000000047002', 'from_time' => $startDate, 'to_time' => $endDate, 'timezone' => 'Asia/Calcutta', 'customer_details' => '{"name": "John", "email":"john1234567@zylker.com", "phone_number":"9876543201"}'),
+        CURLOPT_POSTFIELDS => array('service_id' => '239309000000047036', 'staff_id' => '239309000000033020', 'resource_id' => '239309000000047002', 'from_time' => $startDate, 'to_time' => $endDate, 'timezone' => 'Asia/Calcutta', 'customer_details' => '{"name": '.$_SESSION["name"].', "email":'.$_SESSION["mail"].', "phone_number":'.$_SESSION["phone"].'}'),
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer ' . $accessToken,
             'Cookie: JSESSIONID=9DF2A57754CCCF7AB611E6D9EA92541D; ZCNEWUIPUBLICPORTAL=true; _zcsr_tmp=14067c2f-f77e-4f54-8ee6-08b285a53558; zalb_f8f5095899=adbcb3de29f2c64abb8f3ca36480e470; zccpn=14067c2f-f77e-4f54-8ee6-08b285a53558'
@@ -60,5 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $response = curl_exec($curl);
 
     curl_close($curl);
-    echo $response;
+    if($response){
+        echo "<script>alert('meeting booked succesfully')</script>";
+    }
 }

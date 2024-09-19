@@ -226,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $enteredOtp = $enteredOtp * 10 + $_POST['n6'];
     if ($enteredOtp == $_SESSION['otp']) {
         
-        session_destroy();
+        unset($_SESSION['otp']);
         // @header("Location:selectslot.php");
         echo "<script>window.location.href = 'selectslot.php';</script>";
         // echo '<script>alert("Incorrect otp")</script>';

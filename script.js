@@ -97,8 +97,27 @@ const generateCalendar = (month, year) => {
                 let clickedMonthTemp = month_names[month];
                 clickedMonth = clickedMonthTemp.substring(0, 3);
                 clickedYear = year;
-                alert(`You clicked on: ${day_number}-${month_names[month]}-${year}`);
-                // You can also store the clicked date or perform other actions here
+                let tempMonth = month_names.indexOf(clickedMonthTemp) + 1;
+                if (tempMonth < 10) {
+                    tempMonth = "0" + tempMonth;
+                }
+                let temp = new Date(clickedYear + "-" + tempMonth + "-" + clickedDay);
+                if (d.getFullYear() <= temp.getFullYear()) {
+                    if (d.getMonth() <= temp.getMonth()) {
+                        if (d.getDate() <= temp.getDate()) {
+                            alert(`You clicked on: ${day_number}-${month_names[month]}-${year}`);
+                        }
+                        else {
+                            alert("Please select future date");
+                        }
+                    }
+                    else {
+                        alert("Please select future date");
+                    }
+                }
+                else {
+                    alert("Please select future date");
+                }
             });
 
         }
@@ -190,11 +209,18 @@ timeSlots.forEach(function (slot) {
         let startTime = this.getAttribute('start-time');
         let endTime = this.getAttribute('end-time');
 
-        startDate.value = clickedDay + "-" + clickedMonth + "-" + clickedYear + " " + startTime;
-        endDate.value = clickedDay + "-" + clickedMonth + "-" + clickedYear + " " + endTime;
+        let startHour = Number(startTime.substring(0, 2));
 
-        alert('Selected Time: ' + startDate.value + ' to ' + endDate.value);
-        let form = document.getElementById('dateform');
-        form.submit();
+        if (startHour <= d.getHours()) {
+            alert("Please select future date");
+        }
+        else {
+            startDate.value = clickedDay + "-" + clickedMonth + "-" + clickedYear + " " + startTime;
+            endDate.value = clickedDay + "-" + clickedMonth + "-" + clickedYear + " " + endTime;
+
+            alert('Selected Time: ' + startDate.value + ' to ' + endDate.value);
+            let form = document.getElementById('dateform');
+            form.submit();
+        }
     });
 });

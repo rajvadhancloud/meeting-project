@@ -26,12 +26,17 @@ session_start();
                                 <form action="index.php" method="POST">
 
                                     <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" />
+                                        <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" required/>
                                         <label class="form-label" for="form3Example1cg">Your Name</label>
                                     </div>
 
                                     <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" />
+                                        <input type="number" id="form3Example1cg" class="form-control form-control-lg" name="phone" required/>
+                                        <label class="form-label" for="form3Example1cg">Your Phone No</label>
+                                    </div>
+
+                                    <div data-mdb-input-init class="form-outline mb-4">
+                                        <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" required/>
                                         <label class="form-label" for="form3Example3cg">Your Email</label>
                                     </div>
 
@@ -79,6 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $otp = $otp * 10 + rand(1, 9);
     $_SESSION['otp'] = $otp;
     $mailfrom = $_POST["email"];
+    $_SESSION["mail"] = $mailfrom;
+    $_SESSION["name"] = $_POST["name"];
+    $_SESSION["phone"] = $_POST["phone"];
     $msg = "Your otp for verification is : ".$otp;
     try {
         //Server settings
