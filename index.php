@@ -25,27 +25,43 @@ session_start();
 
                                 <form action="index.php" method="POST">
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" required/>
-                                        <label class="form-label" for="form3Example1cg">Your Name</label>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="name" class="form-control form-control-lg" name="name" required />
+                                        <label class="form-label" for="name">Your Name</label>
                                     </div>
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="number" id="form3Example1cg" class="form-control form-control-lg" name="phone" required/>
-                                        <label class="form-label" for="form3Example1cg">Your Phone No</label>
+                                    <div class="form-outline mb-4">
+                                        <input type="number" id="phone" class="form-control form-control-lg" name="phone" required />
+                                        <label class="form-label" for="phone">Your Phone No</label>
                                     </div>
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" required/>
-                                        <label class="form-label" for="form3Example3cg">Your Email</label>
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="email" class="form-control form-control-lg" name="email" required />
+                                        <label class="form-label" for="email">Your Email</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <select name="industry" id="industry" class="form-control form-control-lg" required>
+                                            <option value="" disabled selected>--Select Industry--</option>
+                                            <option value="banking">Banking</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="wealth">Wealth Management</option>
+                                        </select>
+                                        <label class="form-label" for="industry">Select Industry</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="message" class="form-control form-control-lg" name="message" />
+                                        <label class="form-label" for="message">Message</label>
                                     </div>
 
                                     <div class="d-flex justify-content-center">
-                                        <button type="submit" name="submit" data-mdb-button-init
-                                            data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Send OTP</button>
+                                        <button type="submit" name="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" aria-label="Send OTP">Send OTP</button>
                                     </div>
 
                                 </form>
+
+
 
                             </div>
                         </div>
@@ -59,6 +75,7 @@ session_start();
 
 </html>
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -87,7 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["mail"] = $mailfrom;
     $_SESSION["name"] = $_POST["name"];
     $_SESSION["phone"] = $_POST["phone"];
-    $msg = "Your otp for verification is : ".$otp;
+    $industry = $_POST['industry'];
+    $_SESSION["industry"] = $industry;
+    $msg = "Your otp for verification is : " . $otp;
     try {
         //Server settings
         // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
@@ -111,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $mail->send();
         echo '<script>alert("Message has been sent")</script>';
+        // echo $_SESSION["industry"];
         @header("Location:otpverify.php");
         exit();
     } catch (Exception $e) {

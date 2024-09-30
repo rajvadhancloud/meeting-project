@@ -90,7 +90,6 @@ const generateCalendar = (month, year) => {
             ) {
                 day.classList.add('current-date');
             }
-
             // Add click event listener to each day
             day.addEventListener('click', function () {
                 clickedDay = day_number;
@@ -102,6 +101,8 @@ const generateCalendar = (month, year) => {
                     tempMonth = "0" + tempMonth;
                 }
                 let temp = new Date(clickedYear + "-" + tempMonth + "-" + clickedDay);
+                console.log(temp);
+                console.log(d);
                 if (d.getFullYear() <= temp.getFullYear()) {
                     if (d.getMonth() <= temp.getMonth()) {
                         if (d.getDate() <= temp.getDate()) {
